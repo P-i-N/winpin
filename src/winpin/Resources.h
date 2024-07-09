@@ -1,0 +1,8 @@
+#pragma once
+
+#define IDI_APP_ICON 101
+
+#define IDI_CMD_SAVE_STATE 3000
+#define IDI_CMD_RESTORE_STATE 3001
+#define IDI_CMD_ABOUT 3002
+#define IDI_CMD_EXIT 3003
