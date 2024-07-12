@@ -11,5 +11,8 @@
 #include <format>
 #define LOG( ... ) printf( "%s\n", std::format( __VA_ARGS__ ).c_str() )
 #else
-#define LOG( ... )
+#define LOG( ... ) \
+	do \
+	{ \
+	} while ( false )
 #endif

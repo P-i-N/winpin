@@ -35,7 +35,8 @@ void CALLBACK PeriodicStateCheckTimerFunc( HWND hwnd, UINT message, UINT_PTR idE
 	auto state = State::Create();
 	auto &queue = g_WindowStates[state.monitorsHash];
 
-	LOG( "State hash: {}", state.monitorsHash );
+	if ( state.monitorsHash != g_CurrentMonitorsHash )
+		LOG( "State hash: {}", state.monitorsHash );
 
 	bool monitorsChanged = ( g_CurrentMonitorsHash != 0 ) && ( state.monitorsHash != g_CurrentMonitorsHash );
 	if ( monitorsChanged )
@@ -75,7 +76,8 @@ void CALLBACK PeriodicStateCheckTimerFunc( HWND hwnd, UINT message, UINT_PTR idE
 void ShowAboutDialog( HWND hwnd )
 {
 	auto result = MessageBox( hwnd,
-	                          "WinPin 1.0\n\nTool for restoring windows to previous positions,\nwhen monitor layout is "
+	                          "WinPin " VERSION_STRING
+	                          "\n\nTool for restoring windows to previous positions,\nwhen monitor layout is "
 	                          "changed.\n\nClick 'Help' for GitHub page!",
 	                          "About WinPin",
 	                          MB_OK | MB_HELP | MB_ICONINFORMATION );

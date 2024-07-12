@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 void WindowInfo::Restore() const
 {
-	HWND hwnd = ( HWND )handle;
+	auto hwnd = ( HWND )handle;
 
 	if ( !IsWindow( hwnd ) )
 		hwnd = FindWindow( nullptr, name.c_str() );
@@ -21,7 +21,7 @@ void WindowInfo::Restore() const
 		if ( currentWindowState != WindowState::Normal )
 			ShowWindow( hwnd, SW_RESTORE );
 
-		auto p = placement;
+		auto p = placement; // Make a mutable copy
 		switch ( state )
 		{
 			case WindowState::Normal: p.showCmd = SW_SHOWNORMAL; break;
@@ -29,6 +29,10 @@ void WindowInfo::Restore() const
 			case WindowState::Maximized: p.showCmd = SW_SHOWMAXIMIZED; break;
 		};
 
+		// SetWindowPlacement is a bit flaky, when you have different scalings on different monitors.
+		// Calling it only once caused some windows to be resized incorrectly.
+		// Calling it twice seems to fix the issue. I don't know why.
+		SetWindowPlacement( hwnd, &p );
 		SetWindowPlacement( hwnd, &p );
 
 		if ( state != WindowState::Minimized )
